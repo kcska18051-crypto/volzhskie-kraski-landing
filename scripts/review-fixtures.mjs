@@ -1,0 +1,15 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+await mkdir('review',{recursive:true});
+const original=await readFile('index.html','utf8');
+const absolute=original.replace('href="styles.css"','href="/styles.css"').replace('href="direction.css"','href="/direction.css"').replaceAll('src="assets/','src="/assets/').replaceAll('href="assets/','href="/assets/').replace('src="src/app.mjs"','src="/src/app.mjs"');
+await writeFile('review/no-js.html',absolute.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'').replaceAll('<noscript>','<div>').replaceAll('</noscript>','</div>'));
+await writeFile('review/observer-failure.html',absolute.replace('<script type="module"','<script>window.IntersectionObserver = class { constructor() { throw new Error("Review fixture: observer unavailable"); } };</script><script type="module"'));
+const css=await readFile('styles.css','utf8');
+await writeFile('review/reduced.css',css.replace('@media(prefers-reduced-motion:reduce)','@media all'));
+const direction=await readFile('direction.css','utf8');
+await writeFile('review/reduced-direction.css',direction.replace("url('assets/","url('/assets/").replace('@media(prefers-reduced-motion:reduce)','@media all'));
+const forceMedia = query => `<script>const originalMatchMedia=window.matchMedia.bind(window);window.matchMedia=q=>q.includes('${query}')?{matches:${query==='prefers-reduced-motion'?'true':'false'},media:q,addEventListener(){},removeEventListener(){}}:originalMatchMedia(q);</script>`;
+await writeFile('review/reduced.html',absolute.replace('href="/styles.css"','href="/review/reduced.css"').replace('href="/direction.css"','href="/review/reduced-direction.css"').replace('<script type="module"',forceMedia('prefers-reduced-motion')+'<script type="module"'));
+await writeFile('review/touch-direction.css',direction.replace("url('assets/","url('/assets/").replace('@media(hover:none)','@media all'));
+await writeFile('review/touch.html',absolute.replace('href="/direction.css"','href="/review/touch-direction.css"').replace('<script type="module"',forceMedia('(hover: hover)')+'<script type="module"'));
+console.log('Review-only fixtures generated. Not included in dist.');

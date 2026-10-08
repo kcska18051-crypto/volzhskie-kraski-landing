@@ -1,0 +1,14 @@
+dist/
+node_modules/
+review/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+# Internal historical reports remain local.
+docs/review-v2.md
+docs/review-v3.md
