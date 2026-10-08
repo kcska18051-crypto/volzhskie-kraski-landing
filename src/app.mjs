@@ -22,7 +22,7 @@ function setMode(mode, context = {}) {
   form.elements.task.required = false;
   form.elements.tdsMaterial.required = tds;
   document.querySelector('#additional-fields').hidden = tds;
-  document.querySelector('#form-title').textContent = tds ? 'Запросить техническое описание' : (context.title || 'Заполнить техническое задание');
+  document.querySelector('#form-title').textContent = tds ? 'Запросить техническое описание' : (context.title || 'Задача или готовое ТЗ');
   if (context.ready) document.querySelector('#additional-fields').open = true;
   if (context.material) form.elements[tds ? 'tdsMaterial' : 'material'].value = context.material;
   if (context.application) {
@@ -118,6 +118,7 @@ for (const kind of ['phone','email']) {
   const item = contactConfig[kind];
   const href = contactHref(kind,item);
   element.textContent = item.label;
+  element.hidden = !href;
   if (href) {
     const link = document.createElement('a');
     link.href = href; link.textContent = item.label; element.replaceChildren(link);
@@ -128,7 +129,7 @@ document.querySelector('.contact-note').hidden = ['phone','email'].every(kind=>c
 
 // No hidden pre-animation state: missing/failed observer never conceals content.
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const targets = document.querySelectorAll('.section-head,.color-product,.color-controls,.quality-points,.cooperation-heading,.faq>div:first-child,.partners,.application-card,.material,.quality-steps li,.process-line>div,.cooperation-options article,.production-cover,.production-details');
+  const targets = document.querySelectorAll('.section-head,.color-product,.color-controls,.quality-points,.cooperation-heading,.faq>div:first-child,.partners,.application-card,.material,.quality-steps li,.process-line>div,.cooperation-options article,.production-overview,.production-map li');
   let observer;
   try {
     observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('reveal-ready');observer.unobserve(entry.target);}}),{threshold:.04});

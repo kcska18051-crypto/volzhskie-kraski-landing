@@ -1,3 +1,9 @@
+# Статус материалов V5
+
+В текущем интерфейсе сохранены лента и шесть предметных иллюстраций. Выкрасы созданы CSS, цифровые ворота и схема процесса — SVG в index.html; они не являются документальными фотографиями. Каталожные acrylic-catalog-official.jpg, alkyd-catalog-official.jpg и архивный production-official.jpg сохранены в проекте, но не используются страницей. Восемь цветовых токенов и оригинальный логотип сохранены. Новые изображения не генерировались.
+
+Ниже — происхождение сохранённых ассетов и история V4.
+
 # Оригинальные материалы V4
 
 - [Исходный прототип](https://kapustina-ann.github.io/volzhskie-kraski-production/): HTML и CSS сохранены в review/source-prototype.html и review/source-prototype.css. Оригинальный [logo.png](https://kapustina-ann.github.io/volzhskie-kraski-production/assets/logo.png) сохранён без изменения как assets/logo-original.png, 382×90. SHA256: aec80e539dcce2dc829fd8626581480206c1ad70d4f7001e88a7a85e8d7d6785. Вектор не найден.
